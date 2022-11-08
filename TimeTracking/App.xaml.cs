@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using TimeTracking.ViewModels;
 
 namespace TimeTracking
 {
@@ -13,5 +14,11 @@ namespace TimeTracking
     /// </summary>
     public partial class App : Application
     {
+        public App()
+        {
+            MainWindowViewModel viewModel = new MainWindowViewModel();
+            MainWindow window = new MainWindow(viewModel);
+            window.Show();
+        }
     }
 }
