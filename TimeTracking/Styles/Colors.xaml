@@ -1,0 +1,15 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <!--<Color x:Key="ButtonForeground">#FFFFFFFF</Color>-->
+    <SolidColorBrush x:Key="ButtonForeground"
+    Color="#FFFFFFFF" />
+    
+    <Color x:Key="ButtonStartGradient">#7D2EF4</Color>
+    <Color x:Key="ButtonEndGradient">#510ABC</Color>
+
+    <Color x:Key="ButtonMouseOverStartGradient">#9E64F6</Color>
+    <Color x:Key="ButtonMouseOverEndGradient">#6932BB</Color>
+
+    <Color x:Key="ButtonPressedStartGradient">#5908D4</Color>
+    <Color x:Key="ButtonPressedEndGradient">#370287</Color>
+</ResourceDictionary>

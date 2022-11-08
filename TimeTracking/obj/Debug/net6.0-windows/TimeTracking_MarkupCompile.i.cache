@@ -10,11 +10,11 @@ none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 D:\Projects\Visual Studio 2022\TimeTracking\TimeTracking\TimeTracking\App.xaml
-21588754586
+3905165784
 
 6-23539925
 194618410957
-MainWindow.xaml;Styles\ButtonStyles.xaml;
+MainWindow.xaml;Styles\ButtonStyles.xaml;Styles\Colors.xaml;
 
-False
+True
 
