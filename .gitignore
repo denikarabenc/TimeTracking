@@ -192,3 +192,6 @@ bin
 obj
 
 .vs/*
+
+TimeTracking/obj
+TimeTracking/bin
