@@ -11,19 +11,20 @@ namespace TimeTracking.Models
     {
         private DateTime? startedTrackingAt;
         private DateTime? stoppedTrackingAt;
+        private string interval;
 
         public TrackedTime()
         {
+            interval = string.Empty;
 
         }
-        public TrackedTime(DateTime? startedTrackingAt)
+        public TrackedTime(DateTime? startedTrackingAt) : this()
         {
             this.StartedTrackingAt = startedTrackingAt;
         }
 
-        public TrackedTime(DateTime? startedTrackingAt, DateTime? stoppedTrackingAt)
+        public TrackedTime(DateTime? startedTrackingAt, DateTime? stoppedTrackingAt) : this(startedTrackingAt)
         {
-            this.StartedTrackingAt = startedTrackingAt;
             this.StoppedTrackingAt = stoppedTrackingAt;
         }
 
@@ -35,7 +36,28 @@ namespace TimeTracking.Models
         public DateTime? StoppedTrackingAt
         {
             get => stoppedTrackingAt;
-            set { stoppedTrackingAt = value; OnPropertyChanged(nameof(StoppedTrackingAt)); }
+            set
+            {
+                stoppedTrackingAt = value; OnPropertyChanged(nameof(StoppedTrackingAt));
+                Interval = GetInterval();
+            }
+        }
+
+        public string Interval
+        {
+            get => interval;
+            private set { interval = value; OnPropertyChanged(nameof(Interval)); }
+        }
+
+        private string GetInterval()
+        {
+            TimeSpan? interval = StoppedTrackingAt - StartedTrackingAt;
+            if (interval == null)
+            {
+                return string.Empty;
+            }
+
+            return string.Format("{0} hours and {1} minutes", interval.Value.Hours, interval.Value.Minutes);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;
