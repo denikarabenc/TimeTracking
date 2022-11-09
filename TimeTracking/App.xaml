@@ -8,6 +8,7 @@
                 <ResourceDictionary Source="pack://application:,,,/TimeTracking;component/Styles/WindowStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/TimeTracking;component/Styles/ButtonStyles.xaml"/>
                 <ResourceDictionary Source="pack://application:,,,/TimeTracking;component/Styles/LabelStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TimeTracking;component/Styles/DataGridStyles.xaml"/>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

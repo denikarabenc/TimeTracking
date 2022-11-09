@@ -16,4 +16,12 @@
 
     <Color x:Key="ButtonPressedStartGradient">#5908D4</Color>
     <Color x:Key="ButtonPressedEndGradient">#370287</Color>
+    
+    <!--DataGrid-->
+    <SolidColorBrush x:Key="DataGridRowBordersColor"
+    Color="#1B0D3C" />
+    <SolidColorBrush x:Key="DataGridSelectRowColor"
+    Color="#321C78" />
+    <SolidColorBrush x:Key="DataGridSelectRowBordersColor"
+    Color="#554c74" />
 </ResourceDictionary>

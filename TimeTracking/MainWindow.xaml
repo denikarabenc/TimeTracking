@@ -25,7 +25,7 @@
         </Grid.ColumnDefinitions>
         <Button Grid.Column="0" Grid.Row="0" Margin=" 0 5 0 5" Style="{StaticResource LargeButton}" Command="{Binding TrackingButtonClick}" Content="{Binding Path=StartStopTrackingText, UpdateSourceTrigger=PropertyChanged}"/>
         <Label Grid.Column="0" Grid.Row="1" Content="{Binding Path=TrackingTimeTableText, Mode=OneWay}"/>
-        <DataGrid AutoGenerateColumns="False" Grid.Column="0" Grid.Row="2" Margin="5" ItemsSource="{Binding TrackedTimes}" >
+        <DataGrid AutoGenerateColumns="False" Grid.Column="0" Grid.Row="2" Margin="5" ItemsSource="{Binding TrackedTimes}" AlternationCount="2" IsReadOnly="True" >
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Start time" Binding="{Binding StartedTrackingAt}" />
                 <DataGridTextColumn Header="End time" Binding="{Binding StoppedTrackingAt}"/>
