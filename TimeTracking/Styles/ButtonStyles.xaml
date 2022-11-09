@@ -15,7 +15,7 @@
                 </LinearGradientBrush>
             </Setter.Value>
         </Setter>
-        <Setter Property="Foreground" Value="{DynamicResource ButtonForeground}"/>
+        <Setter Property="Foreground" Value="{DynamicResource Foreground}"/>
         <Setter Property="Template">
             <Setter.Value>
                 <ControlTemplate TargetType="{x:Type Button}">
@@ -57,6 +57,8 @@
             
         </Style.Triggers>
     </Style>
+
+    <Style BasedOn="{StaticResource ButtonGeneral}" TargetType="Button"></Style>
     
     <Style BasedOn="{StaticResource ButtonGeneral}" TargetType="Button"
            x:Key="LargeButton">

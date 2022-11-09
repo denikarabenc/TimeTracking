@@ -3,6 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:TimeTracking">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="pack://application:,,,/TimeTracking;component/Styles/WindowStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TimeTracking;component/Styles/ButtonStyles.xaml"/>
+                <ResourceDictionary Source="pack://application:,,,/TimeTracking;component/Styles/LabelStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>
