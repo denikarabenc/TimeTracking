@@ -1,4 +1,7 @@
 ﻿using Common.WPFCommand;
+using DatabaseLayer.Entities.Interfaces;
+using DatabaseLayer.Repositories;
+using DatabaseLayer.Repositories.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using TimeTracking.DTOs;
 using TimeTracking.Models;
 
 namespace TimeTracking.ViewModels
@@ -23,26 +27,57 @@ namespace TimeTracking.ViewModels
         private string startStopTrackingText;
         private string trackingTimeTableText;
 
+        private Guid? currentlyTrackedTime;
+
         private ICommand? trackingButtonClick;
 
         private ObservableCollection<TrackedTime> trackedTimes;
 
-        public MainWindowViewModel()
+        //This is fine to be aquired via database layer because we have no more layers in between, it will not help in current implementation
+        private IUnitOfWork unitOfWork;
+
+        public MainWindowViewModel(IUnitOfWork unitOfWork)
         {
-            trackingTime = false;
-            startStopTrackingText = startTrackingTimeTextForLocalization;
-            trackedTimes = new ObservableCollection<TrackedTime>();
+            this.unitOfWork = unitOfWork;
+
+            trackedTimes = new ObservableCollection<TrackedTime>(unitOfWork.TrackedTimeRepository.GetAll().Select(tt => TrackedTimeMapper.getTrackedTime(tt)));
+            currentlyTrackedTime = getCurrentlyTrackedGuid();
+
+            if (currentlyTrackedTime != null)
+            {
+                trackingTime = true;
+                startStopTrackingText = stopTrackingTimeTextForLocalization;
+            }
+            else
+            {
+                trackingTime = false;
+                startStopTrackingText = startTrackingTimeTextForLocalization;
+            }
+
             trackingTimeTableText = trackingTimeTableTextForLocalization;
+        }
+
+        private Guid? getCurrentlyTrackedGuid()
+        {
+            return trackedTimes.FirstOrDefault(tt => tt.StoppedTrackingAt == null)?.Id;
         }
 
         private void StartTrackingTime()
         {
-            TrackedTimes.Add(new TrackedTime(DateTime.UtcNow));
+            IUnitOfWork unitOfWork = new UnitOfWork();
+            TrackedTime tt = new TrackedTime(DateTime.UtcNow);
+            DatabaseLayer.Entities.TrackedTime savedTrackedTime = unitOfWork.TrackedTimeRepository.Insert(TrackedTimeMapper.getTrackedTimeDTO(tt));
+            TrackedTimes.Add(TrackedTimeMapper.getTrackedTime(savedTrackedTime));
+            unitOfWork.Save();
         }
 
         private void StopTrackingTime()
         {
-            TrackedTimes.Last().StoppedTrackingAt = DateTime.UtcNow;
+            IUnitOfWork unitOfWork = new UnitOfWork();
+            TrackedTime tt = trackedTimes.First(tt => tt.StoppedTrackingAt == null);
+            tt.StoppedTrackingAt = DateTime.UtcNow;
+            DatabaseLayer.Entities.TrackedTime savedTrackedTime = unitOfWork.TrackedTimeRepository.Update(TrackedTimeMapper.getTrackedTimeDTO(tt));
+            unitOfWork.Save();
         }
         private void TrackTime()
         {
@@ -75,7 +110,7 @@ namespace TimeTracking.ViewModels
 
         public ICommand TrackingButtonClick
         {
-            get => trackingButtonClick ?? (trackingButtonClick = new RelayCommand(param => TrackTime()));
+            get => trackingButtonClick ??= new RelayCommand(param => TrackTime());
         }
 
         public string StartStopTrackingText

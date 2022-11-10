@@ -1,4 +1,6 @@
-﻿using System;
+﻿using DatabaseLayer.Repositories;
+using DatabaseLayer.Repositories.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -16,7 +18,8 @@ namespace TimeTracking
     {
         public App()
         {
-            MainWindowViewModel viewModel = new MainWindowViewModel();
+            IUnitOfWork unitOfWork = new UnitOfWork();
+            MainWindowViewModel viewModel = new MainWindowViewModel(unitOfWork);
             MainWindow window = new MainWindow(viewModel);
             window.Show();
         }

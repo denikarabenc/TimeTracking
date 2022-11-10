@@ -9,6 +9,7 @@ namespace TimeTracking.Models
 {
     public class TrackedTime : INotifyPropertyChanged
     {
+        private Guid? id;
         private DateTime? startedTrackingAt;
         private DateTime? stoppedTrackingAt;
         private string interval;
@@ -20,12 +21,17 @@ namespace TimeTracking.Models
         }
         public TrackedTime(DateTime? startedTrackingAt) : this()
         {
-            this.StartedTrackingAt = startedTrackingAt;
+            this.startedTrackingAt = startedTrackingAt;
         }
 
         public TrackedTime(DateTime? startedTrackingAt, DateTime? stoppedTrackingAt) : this(startedTrackingAt)
         {
-            this.StoppedTrackingAt = stoppedTrackingAt;
+            this.stoppedTrackingAt = stoppedTrackingAt;
+        }
+
+        public TrackedTime(DateTime? startedTrackingAt, DateTime? stoppedTrackingAt, Guid? id) : this(startedTrackingAt, stoppedTrackingAt)
+        {
+            this.id = id;
         }
 
         public DateTime? StartedTrackingAt
@@ -40,6 +46,16 @@ namespace TimeTracking.Models
             {
                 stoppedTrackingAt = value; OnPropertyChanged(nameof(StoppedTrackingAt));
                 Interval = GetInterval();
+            }
+        }
+
+        public Guid? Id
+        {
+            get => id;
+            set
+            {
+                id = value;
+                OnPropertyChanged(nameof(Id));
             }
         }
 
