@@ -1,15 +1,10 @@
 ﻿using Common.WPFCommand;
-using DatabaseLayer.Entities.Interfaces;
 using DatabaseLayer.Repositories;
-using DatabaseLayer.Repositories.Interfaces;
+using Services;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Input;
 using TimeTracking.DTOs;
 using TimeTracking.Models;
@@ -33,14 +28,11 @@ namespace TimeTracking.ViewModels
 
         private ObservableCollection<TrackedTime> trackedTimes;
 
-        //This is fine to be aquired via database layer because we have no more layers in between, it will not help in current implementation
-        private IUnitOfWork unitOfWork;
-
-        public MainWindowViewModel(IUnitOfWork unitOfWork)
+        public MainWindowViewModel()
         {
-            this.unitOfWork = unitOfWork;
+            TrackedTimeService service = new TrackedTimeService(new UnitOfWork());
 
-            trackedTimes = new ObservableCollection<TrackedTime>(unitOfWork.TrackedTimeRepository.GetAll().Select(tt => TrackedTimeMapper.getTrackedTime(tt)));
+            trackedTimes = new ObservableCollection<TrackedTime>(service.GetTrackedTimes().Select(tt => TrackedTimeMapper.getTrackedTime(tt)));
             currentlyTrackedTime = getCurrentlyTrackedGuid();
 
             if (currentlyTrackedTime != null)
@@ -64,20 +56,17 @@ namespace TimeTracking.ViewModels
 
         private void StartTrackingTime()
         {
-            IUnitOfWork unitOfWork = new UnitOfWork();
-            TrackedTime tt = new TrackedTime(DateTime.UtcNow);
-            DatabaseLayer.Entities.TrackedTime savedTrackedTime = unitOfWork.TrackedTimeRepository.Insert(TrackedTimeMapper.getTrackedTimeDTO(tt));
+            TrackedTimeService service = new TrackedTimeService(new UnitOfWork()); //simulating scope dependency injection
+            DatabaseLayer.Entities.TrackedTime savedTrackedTime = service.StartTrackingTime();
             TrackedTimes.Add(TrackedTimeMapper.getTrackedTime(savedTrackedTime));
-            unitOfWork.Save();
         }
 
         private void StopTrackingTime()
         {
-            IUnitOfWork unitOfWork = new UnitOfWork();
             TrackedTime tt = trackedTimes.First(tt => tt.StoppedTrackingAt == null);
-            tt.StoppedTrackingAt = DateTime.UtcNow;
-            DatabaseLayer.Entities.TrackedTime savedTrackedTime = unitOfWork.TrackedTimeRepository.Update(TrackedTimeMapper.getTrackedTimeDTO(tt));
-            unitOfWork.Save();
+            TrackedTimeService service = new TrackedTimeService(new UnitOfWork()); //simulating scope dependency injection
+            DatabaseLayer.Entities.TrackedTime savedTrackedTime = service.StopTrackingTime(TrackedTimeMapper.getTrackedTimeDTO(tt));
+            tt.StoppedTrackingAt = TrackedTimeMapper.getTrackedTime(savedTrackedTime).StoppedTrackingAt;
         }
         private void TrackTime()
         {

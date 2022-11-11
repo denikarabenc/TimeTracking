@@ -1,5 +1,4 @@
-﻿using DatabaseLayer.Entities.Interfaces;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +7,6 @@ using TimeTracking.Models;
 
 namespace TimeTracking.DTOs
 {
-    //TODO this is a mess
     public static class TrackedTimeMapper
     {
         public static DatabaseLayer.Entities.TrackedTime getTrackedTimeDTO(TrackedTime trackedTime)

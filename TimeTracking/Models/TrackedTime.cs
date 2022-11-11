@@ -12,12 +12,9 @@ namespace TimeTracking.Models
         private Guid? id;
         private DateTime? startedTrackingAt;
         private DateTime? stoppedTrackingAt;
-        private string interval;
 
         public TrackedTime()
         {
-            interval = string.Empty;
-
         }
         public TrackedTime(DateTime? startedTrackingAt) : this()
         {
@@ -44,8 +41,9 @@ namespace TimeTracking.Models
             get => stoppedTrackingAt;
             set
             {
-                stoppedTrackingAt = value; OnPropertyChanged(nameof(StoppedTrackingAt));
-                Interval = GetInterval();
+                stoppedTrackingAt = value;
+                OnPropertyChanged(nameof(StoppedTrackingAt));
+                OnPropertyChanged(nameof(Interval));
             }
         }
 
@@ -61,8 +59,7 @@ namespace TimeTracking.Models
 
         public string Interval
         {
-            get => interval;
-            private set { interval = value; OnPropertyChanged(nameof(Interval)); }
+            get => GetInterval();
         }
 
         private string GetInterval()

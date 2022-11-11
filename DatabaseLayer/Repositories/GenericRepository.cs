@@ -39,7 +39,7 @@ namespace DatabaseLayer.Repositories
 
         public IEnumerable<TEntity> GetAll()
         {
-            return dbSet.ToArray();
+            return dbSet.ToList();
         }
 
         public IEnumerable<TEntity> Get(
@@ -100,9 +100,15 @@ namespace DatabaseLayer.Repositories
 
         public void Delete(TEntity? entity)
         {
+
             if (entity == null)
             {
                 return;
+            }
+
+            if (context.Entry(entity).State == EntityState.Detached)
+            {
+                dbSet.Attach(entity);
             }
             dbSet.Remove(entity);
         }
@@ -119,6 +125,8 @@ namespace DatabaseLayer.Repositories
 
         public TEntity Update(TEntity entity)
         {
+            dbSet.Attach(entity);
+            context.Entry(entity).State = EntityState.Modified;
             dbSet.Update(entity);
             return entity;
         }

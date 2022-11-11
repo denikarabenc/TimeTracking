@@ -11,6 +11,10 @@ namespace DatabaseLayer.Entities
     [Table("TrackedTime")]
     public class TrackedTime : TimeTrackingSchema, ITrackedTime
     {
+        public TrackedTime()
+        {
+            StartedTrackingAt = DateTime.UtcNow;
+        }
         public DateTime? StartedTrackingAt
         {
             get; set;

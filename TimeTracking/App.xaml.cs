@@ -18,8 +18,7 @@ namespace TimeTracking
     {
         public App()
         {
-            IUnitOfWork unitOfWork = new UnitOfWork();
-            MainWindowViewModel viewModel = new MainWindowViewModel(unitOfWork);
+            MainWindowViewModel viewModel = new MainWindowViewModel();
             MainWindow window = new MainWindow(viewModel);
             window.Show();
         }
